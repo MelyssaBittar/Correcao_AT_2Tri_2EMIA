@@ -20,7 +20,7 @@ namespace Correção_AT_2Tri_2EMIA
         3 = Tesoura
         */
 
-        int jogadaSelecionada = 0;
+        Jogadas jogadaSelecionada = Jogadas.NENHUMA;
 
         string[] jogadas = new string[3]
         {
@@ -34,6 +34,14 @@ namespace Correção_AT_2Tri_2EMIA
         int empates = 0;
         int derrotas = 0;
 
+        enum Jogadas
+        {
+            NENHUMA,
+            Pedra,
+            Papel,
+            Tesoura
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -41,7 +49,7 @@ namespace Correção_AT_2Tri_2EMIA
 
         private void btPedra_Click(object sender, EventArgs e)
         {
-            jogadaSelecionada = 1;
+            jogadaSelecionada = Jogadas.PEDRA;
             AtualizarJogadaSelecionada();
         }
 
@@ -51,7 +59,7 @@ namespace Correção_AT_2Tri_2EMIA
             {
                 lbJogadaSelecionada.Text = string.Format(
                     "Você selecionou a jogada {0}.",
-                    jogadas[jogadaSelecionada - 1]
+                  jogadaSelecionada.ToString()
                 );
             }
             else
@@ -62,7 +70,7 @@ namespace Correção_AT_2Tri_2EMIA
 
         private bool ChecarJogadaValida()
         {
-            return jogadaSelecionada > 0;
+            return jogadaSelecionada != Jogadas.NENHUMA;
         }
 
         private void btJogar_Click(object sender, EventArgs e)
@@ -73,78 +81,73 @@ namespace Correção_AT_2Tri_2EMIA
             }
         }
 
-        enum Jogadas
-        {
-            PEDRA = 1,
-            PAPEL = 2,
-            TESOURA = 3
-        }
+
 
         private void Jogar()
         {
             Random rnd = new Random();
-            int jogadaComputador = rnd.Next(1, jogadas.Length + 1);
+            Jogadas jogadaComputador = (Jogadas)rnd.Next(1, jogadas.Length + 1);
 
             ExibirJogada("Jogador", jogadaSelecionada);
             ExibirJogada("Computador", jogadaComputador);
 
             // Jogada Selecionada = Pedra
             //if (jogadaSelecionada == Jogadas.PEDRA)
-            if (jogadaSelecionada == 1)
+            if (jogadaSelecionada == Jogadas.PEDRA)
             {
                 // Jogada do Computador = Pedra
-                if (jogadaComputador == 1)
+                if (jogadaComputador == Jogadas.PEDRA)
                 {
                     // Empate
                     Empate();
                 }
                 // Jogada do Computador = Papel
-                else if (jogadaComputador == 2)
+                else if (jogadaComputador == Jogadas.PAPEL)
                 {
                     // Derrota
                     Derrota();
                 }
                 // Jogada do Computador = Tesoura
-                else if (jogadaComputador == 3)
+                else if (jogadaComputador == Jogadas.TESOURA)
                 {
                     // Vitória
                     Vitoria();
                 }
             }
             // Jogada Selecionada = Papel
-            else if (jogadaSelecionada == 2)
+            else if (jogadaSelecionada == Jogadas.PAPEL)
             {
                 // Jogada do Computador = Pedra
-                if (jogadaComputador == 1)
+                if (jogadaComputador == Jogadas.PEDRA)
                 {
                     Vitoria();
                 }
                 // Jogada do Computador = Papel
-                else if (jogadaComputador == 2)
+                else if (jogadaComputador == Jogadas.PAPEL)
                 {
                     Empate();
                 }
                 // Jogada do Computador = Tesoura
-                else if (jogadaComputador == 3)
+                else if (jogadaComputador == Jogadas.TESOURA)
                 {
                     Derrota();
                 }
             }
             // Jogada Selecionada = Tesoura
-            else if (jogadaSelecionada == 3)
+            else if (jogadaSelecionada == Jogadas.TESOURA)
             {
                 // Jogada do Computador = Pedra
-                if (jogadaComputador == 1)
+                if (jogadaComputador == Jogadas.PEDRA)
                 {
                     Derrota();
                 }
                 // Jogada do Computador = Papel
-                else if (jogadaComputador == 2)
+                else if (jogadaComputador == Jogadas.PAPEL)
                 {
                     Vitoria();
                 }
                 // Jogada do Computador = Tesoura
-                else if (jogadaComputador == 3)
+                else if (jogadaComputador == Jogadas.TESOURA)
                 {
                     Empate();
                 }
@@ -153,13 +156,13 @@ namespace Correção_AT_2Tri_2EMIA
             AvancarRodada();
         }
 
-        private void ExibirJogada(string nomeJogador, int jogada)
+        private void ExibirJogada(string nomeJogador, Jogadas jogada)
         {
             rbResultado.AppendText(
                 string.Format(
                     "{0}: {1}\n",
                     nomeJogador,
-                    jogadas[jogada - 1]
+                    jogada.ToString()
                 )
             );
         }
@@ -208,13 +211,13 @@ namespace Correção_AT_2Tri_2EMIA
 
         private void btPapel_Click(object sender, EventArgs e)
         {
-            jogadaSelecionada = 2;
+            jogadaSelecionada = Jogadas.PAPEL;
             AtualizarJogadaSelecionada();
         }
 
         private void btTesoura_Click(object sender, EventArgs e)
         {
-            jogadaSelecionada = 3;
+            jogadaSelecionada = Jogadas.TESOURA;
             AtualizarJogadaSelecionada();
         }
 
